@@ -10,6 +10,7 @@
 #define DHTPIN D2     // what digital pin the DHT22 is conected to
 #define DHTTYPE DHT22 // there are multiple kinds of DHT sensors
 #define PIR_MOTION_SENSOR D8
+#define D7s D7
 
 DHT dht(DHTPIN, DHTTYPE);
 Servo myservo;
@@ -20,8 +21,7 @@ myprotocol myiot;
 const char *ssid = "F1uke";
 const char *passw = "lingfluke";
 
-String response;
-float value;
+
 // char ssid[] = "F1uke";
 char pass[] = "lingfluke";
 char auth[] = "bd4cab06a86b4bfeaeac926c5ab7ce88";
@@ -85,7 +85,7 @@ void setup()
 
   dht.begin();
   timer.setInterval(10000, sendUptime); //1000=1s
-  timer.setInterval(30000, CheckConnection);
+  timer.setInterval(60000, CheckConnection);
 
   Serial.println("Device Started");
   Serial.println("-------------------------------------");
@@ -155,11 +155,8 @@ void loop()
     return;
   }
 
-  response = "";
-  value = random(40, 50);
-  response = myiot.WriteDashboard(value);
+// write data to server
   myiot.WriteDHT(t2,h2);
-  Serial.println(response);
 
   //Servo Control
 
@@ -289,7 +286,9 @@ void loop()
     timmerFAN = 61;
   }
 
-  if (timmerPIR >= 30 && timemerMoveServo != 0 && timmerLEMP > 5 && timemerMoveServo != 259200 && timemerMoveServo != 259800)
+// check pir
+  // if (timmerPIR >= 30 && timemerMoveServo != 0 && timmerLEMP > 5 && timemerMoveServo != 259200 && timemerMoveServo != 259800)
+  if (timmerPIR >= 10 && timemerMoveServo != 259200 && timemerMoveServo != 259800)
   {
     if (digitalRead(D5) == HIGH)
     {
