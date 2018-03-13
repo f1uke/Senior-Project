@@ -14,7 +14,7 @@
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 20px;
-    width: 70%;
+    width: 50%;
     margin: auto;
     }
     h2{
@@ -39,7 +39,6 @@
 
 
   <h2 align="center">Chart display Temperature and Humidity data from Egg Incubator</h2>
-  
   <div id="mainDiv">
     <div align="center">
     <label for="firstname">TimeFrame:</label>
@@ -48,8 +47,9 @@
     <button type="button" class="btn btn-primary btn-sm" onclick="timeF = 300;chart_temp.destroy();chart_humid.destroy();drawchart_temp(t_set=[], t_timeset=[]);drawchart_humid(h_set=[], h_timeset=[]);">30M</button>
     <button type="button" class="btn btn-primary btn-sm" onclick="timeF = 600;chart_temp.destroy();chart_humid.destroy();drawchart_temp(t_set=[], t_timeset=[]);drawchart_humid(h_set=[], h_timeset=[]);">1H</button>
     <button type="button" class="btn btn-primary btn-sm" onclick="timeF = 2400;chart_temp.destroy();chart_humid.destroy();drawchart_temp(t_set=[], t_timeset=[]);drawchart_humid(h_set=[], h_timeset=[]);">4H</button>
-    <button type="button" class="btn btn-primary btn-sm" onclick="timeF = null;chart_temp.destroy();chart_humid.destroy();drawchart_temp(t_set=[], t_timeset=[]);drawchart_humid(h_set=[], h_timeset=[]);">All</button>
-  </div>
+    <button type="button" class="btn btn-primary btn-sm" onclick="timeF = 4000;chart_temp.destroy();chart_humid.destroy();drawchart_temp(t_set=[], t_timeset=[]);drawchart_humid(h_set=[], h_timeset=[]);">All</button>
+    </div>
+    <button class="btn btn-info btn-sm" onclick="resetZoom();chart_temp.destroy();chart_humid.destroy();drawchart_temp(t_set=[], t_timeset=[]);drawchart_humid(h_set=[], h_timeset=[]);">Reset Zoom</button>
   
   <div><canvas id="temp" width="700" height="450"></canvas></div>
   <div><canvas id="humid" width="700" height="450"></canvas></div>
@@ -59,8 +59,12 @@
 </body>
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="./src/js/Chart.min.js"></script>
+<!-- <script src="./src/js/Chart.min.js"></script> -->
 <script src="./src/js/moment.js"></script>
+
+<script src="./node_modules/chart.js/dist/Chart.bundle.js"></script>
+<script src="./node_modules/hammerjs/hammer.min.js"></script>
+<script src="./node_modules/chartjs-plugin-zoom/chartjs-plugin-zoom.js"></script>
 
 
 <script>
@@ -69,6 +73,7 @@ var path, t_set=[], h_set=[], t_timeset=[], h_timeset=[];
 var temp_canvas = document.getElementById('temp').getContext('2d');
 var humid_canvas = document.getElementById('humid').getContext('2d');
 var timeF = 30;
+var timeFormat = 'MMM Do YY, h:mm:ss a';
 
 getdata(timeF);
 drawchart_temp(t_set, t_timeset);
@@ -79,6 +84,11 @@ setInterval(function(){
   charttempupdate();
   charthumidupdate();
 },1000);
+
+function resetZoom() {
+      chart_temp.resetZoom(),
+      chart_humid.resetZoom()
+    }
 
 /* script สำหรับเรียกข้อมูลจาก app.js */
 function getdata(_datasize) {
@@ -126,7 +136,7 @@ function drawchart_temp(_dataset,_timeset){
         labels: _timeset,
         datasets: [{
             label: 'Temperature from DHT',
-            fill: true,
+            fill: false,
             lineTension: 0.5,
             backgroundColor: "rgba(255, 0, 0, 0.3)",
             borderColor: "rgb(255, 0, 0)",
@@ -134,11 +144,19 @@ function drawchart_temp(_dataset,_timeset){
         }]
     },
     options: {
+        responsive: true,
         animation: false,
         scales: {
           xAxes: [{
+            type: "time",
+            time: {
+              format: timeFormat,
+              // round: 'day'
+              tooltipFormat: 'h:mm:ss'
+            },
+            
             ticks:{
-              fontSize : 9
+              maxRotation: 0
               }
             }],
           yAxes: [{
@@ -147,12 +165,21 @@ function drawchart_temp(_dataset,_timeset){
               labelString: 'Celcuis.'
             }
           }]
+        },
+        zoom: {
+          enabled: true,
+          drag: true,
+          mode: 'x',
+          limits: {
+            max: 10,
+            min: 0.5
+          }
         }
       }
     });
 
     chart_temp.options.scales.yAxes[0].ticks.min = 30;
-    chart_temp.options.scales.yAxes[0].ticks.max = 45;
+    chart_temp.options.scales.yAxes[0].ticks.max = 40;
   }
 
 function charttempupdate(){
@@ -164,7 +191,7 @@ function charttempupdate(){
 function drawchart_humid(_dataset,_timeset){
 
     chart_humid = new Chart(humid_canvas, {
-    type: 'bar',
+    type: 'line',
     data: {
         labels: _timeset,
         datasets: [{
@@ -177,11 +204,19 @@ function drawchart_humid(_dataset,_timeset){
         }]
     },
     options: {
+        responsive: true,
         animation: false,
         scales: {
           xAxes: [{
+            type: "time",
+            time: {
+              format: timeFormat,
+              // round: 'day'
+              tooltipFormat: 'h:mm:ss'
+            },
+            
             ticks:{
-              fontSize : 9
+              maxRotation: 0
               }
             }],
           yAxes: [{
@@ -190,6 +225,15 @@ function drawchart_humid(_dataset,_timeset){
               labelString: '% RH'
             }
           }]
+        },
+        zoom: {
+          enabled: true,
+          drag: true,
+          mode: 'x',
+          limits: {
+            max: 10,
+            min: 0.5
+          }
         }
       }
     });
@@ -214,5 +258,6 @@ function re_numbering(_arr){
   }
   return _dummy_arr;
 }
+
 </script>
 </html>
