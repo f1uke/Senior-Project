@@ -4,6 +4,7 @@
   <title>Egg Incubator Monitoring</title>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
    /* div{
       width: 50%;
@@ -49,7 +50,12 @@
     <button type="button" class="btn btn-primary btn-sm" onclick="timeF = 2400;chart_temp.destroy();chart_humid.destroy();drawchart_temp(t_set=[], t_timeset=[]);drawchart_humid(h_set=[], h_timeset=[]);">4H</button>
     <button type="button" class="btn btn-primary btn-sm" onclick="timeF = 4000;chart_temp.destroy();chart_humid.destroy();drawchart_temp(t_set=[], t_timeset=[]);drawchart_humid(h_set=[], h_timeset=[]);">All</button>
     </div>
-    <button class="btn btn-info btn-sm" onclick="resetZoom();chart_temp.destroy();chart_humid.destroy();drawchart_temp(t_set=[], t_timeset=[]);drawchart_humid(h_set=[], h_timeset=[]);">Reset Zoom</button>
+    
+  	<div align="center">
+  		<button class="btn btn-info btn-sm" onclick="resetZoom();chart_temp.destroy();chart_humid.destroy();drawchart_temp(t_set=[], t_timeset=[]);drawchart_humid(h_set=[], h_timeset=[]);">Reset Zoom</button>
+  		<button class="btn btn-sm" onclick="location.href='https://github.com/f1uke/Senior-Project'"><i class="fa fa-github"></i></button>
+  	</div>
+    
   
   <div><canvas id="temp" width="700" height="450"></canvas></div>
   <div><canvas id="humid" width="700" height="450"></canvas></div>
