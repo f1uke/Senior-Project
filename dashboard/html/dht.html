@@ -3,7 +3,7 @@
 <head>
   <title>Egg Incubator Monitoring</title>
 
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <style>
    /* div{
       width: 50%;
@@ -58,7 +58,7 @@
 
 </body>
 
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="./src/js/Chart.min.js"></script>
 <script src="./src/js/moment.js"></script>
 
@@ -82,7 +82,7 @@ setInterval(function(){
 
 /* script สำหรับเรียกข้อมูลจาก app.js */
 function getdata(_datasize) {
-  path = 'http://159.65.142.154:4000/readdht/'; /* ใส่ IP address server ของเราลงไปครับ */
+  path = 'https://sattra.me/readdht/'; /* ใส่ IP address server ของเราลงไปครับ */
   path += _datasize;
   path += '?output=jsonp&callback=?';
 
